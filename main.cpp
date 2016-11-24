@@ -1,11 +1,13 @@
 #include<iostream>
 #include<vector>
 #include"observer.h"
+#include"composite.h"
 using namespace std;
 
 int main(){
 	//测试Observer部分
 	//测试内容：Observer的添加，删除，数量；改变状态的设置；改变状态观察者的响应
+	cout<<"Observer Testing"<<endl;
 	cout<<"创建三个观察者和一个被观察者。"<<endl;
 	Observer *p1=new ConcreateObserver;
 	Observer *p2=new ConcreateObserver;
@@ -35,5 +37,39 @@ int main(){
 	p->notifyObservers(p1);
 
 	//测试composite部分
+	cout<<"Composite testing:"<<endl;
+	cout<<"Making user entries..."<<endl;
+	Directory *rootdir=new Directory("root");
+	Directory *bindir=new Directory("bin");
+	Directory *tmpdir=new Directory("tmp");
+	Directory *usrdir=new Directory("usr");
+	rootdir->add(bindir);
+	rootdir->add(tmpdir);
+	rootdir->add(usrdir);
+	File *vi=new File("vi",10000);
+	File *latex=new File("latex",20000);
+	bindir->add(vi);
+	bindir->add(latex);
+	rootdir->printList();
+	cout<<endl;
+	cout<<"Making user entries..."<<endl;
+	Directory *yuki=new Directory("yuki");
+	Directory *hanako=new Directory("hanako");
+	Directory *tomura=new Directory("tomura");
+	usrdir->add(yuki);
+	usrdir->add(hanako);
+	usrdir->add(tomura);
+	File *daily=new File("diary.html",100);
+	File *Composite=new File("Composite.java",200);
+	File *memo=new File("memo.tex",300);
+	File *game=new File("game.doc",400);
+	File *junk=new File("junk.mail",500);
+	yuki->add(daily);
+	yuki->add(Composite);
+	hanako->add(memo);
+	tomura->add(game);
+	tomura->add(junk);
+	rootdir->printList();
+	//测试undo_redo部分
 	return 0;
 }

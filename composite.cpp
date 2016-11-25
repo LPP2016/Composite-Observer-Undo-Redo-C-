@@ -69,7 +69,7 @@ int Directory::getSize()
 }
 void Directory::printList()
 {
-	cout<<"/"<<name<<"("<<size<<")"<<endl;
+	cout<<"/"<<name<<"("<<getSize()<<")"<<endl;
 	vector<Entry>::iterator iter;
 	for(iter=directory.begin();iter!=directory.end();iter++)
 	{

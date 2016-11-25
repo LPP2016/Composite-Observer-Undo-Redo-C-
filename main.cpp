@@ -51,6 +51,7 @@ int main(){
 	bindir->add(vi);
 	bindir->add(latex);
 	rootdir->printList();
+	bindir->printList();
 	cout<<endl;
 	cout<<"Making user entries..."<<endl;
 	Directory *yuki=new Directory("yuki");

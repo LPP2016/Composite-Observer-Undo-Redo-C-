@@ -50,8 +50,8 @@ int main(){
 	File *latex=new File("latex",20000);
 	bindir->add(vi);
 	bindir->add(latex);
-	rootdir->printList();
-	bindir->printList();
+	rootdir->printList("/");
+	bindir->printList("/");
 	cout<<endl;
 	cout<<"Making user entries..."<<endl;
 	Directory *yuki=new Directory("yuki");
@@ -70,7 +70,7 @@ int main(){
 	hanako->add(memo);
 	tomura->add(game);
 	tomura->add(junk);
-	rootdir->printList();
+	rootdir->printList("/");
 	//≤‚ ‘undo_redo≤ø∑÷
 	return 0;
 }

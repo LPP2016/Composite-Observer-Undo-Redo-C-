@@ -2,6 +2,7 @@
 #include<vector>
 #include"observer.h"
 #include"composite.h"
+#include"undo_redo.h"
 using namespace std;
 
 int main(){
@@ -72,5 +73,24 @@ int main(){
 	tomura->add(junk);
 	rootdir->printList("/");
 	//测试undo_redo部分
+	cout<<endl<<endl<<"测试undo_red部分："<<endl;
+	UndoManager* command=new UndoManager();
+	UndoManager* newdir1=new UndoManager(1,"dir1");
+	UndoManager* newdir2=new UndoManager(1,"dir2");
+	UndoManager* newdir3=new UndoManager(1,"dir3");
+	UndoManager* newfile1=new UndoManager(1,"file1");
+	UndoManager* newfile2=new UndoManager(1,"file2");
+	UndoManager* deletedir3=new UndoManager(2,"dir3");
+	UndoManager* setsizefile1=new UndoManager(1,"file1");
+	command->addEdit(*newdir1);
+	command->addEdit(*newdir2);
+	command->addEdit(*newdir3);
+	command->addEdit(*newfile1);
+	command->addEdit(*newfile2);
+	command->addEdit(*deletedir3);
+	command->addEdit(*setsizefile1);
+	//command->editToBeUndone();
+	//command->redo();
+	command->replaceEdit(*deletedir3);
 	return 0;
 }

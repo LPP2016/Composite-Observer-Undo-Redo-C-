@@ -1,4 +1,6 @@
 #include<iostream>
+#include<string>
+#include<algorithm>
 #include"undo_redo.h"
 
 using namespace std;
@@ -53,7 +55,7 @@ string UndoableEdit::getPresentationName()
 	case 4:
 		comm="delete_file";break;
 	case 5:
-		comm="edit_file";break;
+		comm="setsize_file";break;
 	default:
 		break;
 	}
@@ -64,22 +66,71 @@ void CompoundEdit::addEdit(UndoableEdit anEdit)
 	if(&anEdit==NULL)
 		UndoableEdit *anEdit=new UndoableEdit;
 	edits.push_back(anEdit);
+	cout<<"add"<<anEdit.getPresentationName()
+		<<"("<<anEdit.getName()<<")"<<endl;
 }
-void CompoundEdit::replaceEdit(UndoableEdit anEdit)
+void CompoundEdit::replaceEdit(UndoableEdit anedit)
 {
-	list<UndoableEdit>::iterator iter;
-	iter=find(edits.begin(),edits.end(),anEdit);
-	if(edits.end()!=iter)
+	list<UndoableEdit>::iterator iter1,iter2;
+	iter1=edits.begin();
+	iter2=edits.end();
+	for(;iter1!=iter2;iter1++)
 	{
-		edits.erase(iter);
-		edits.push_back(anEdit);
+		if(iter1->getName()==anedit.getName()
+			&&iter1->getPresentationName()==anedit.getPresentationName())
+			break;
+	}
+	if(edits.end()!=iter1)
+	{
+		edits.erase(iter1);
+		edits.push_back(anedit);
+		cout<<"replace this command."<<endl;
 	}
 	else
 	{
-		cout<<"This command does not exist."<<endl;
+		cout<<"this command does not exist."<<endl;
 	}
 }
-void UndoManager::undoableEditHappened()
+void UndoManager::undo()
 {
-
+	
+	list<UndoableEdit>::iterator iter;
+	*iter=editToBeUndone();
+	iter->undo();
+	
 }
+void UndoManager::redo()
+{
+	list<UndoableEdit>::iterator iter;
+	*iter=editToBeRedone();
+	iter->redo();
+	replaceEdit(*iter);
+}
+
+UndoableEdit UndoManager::editToBeUndone()
+{
+	list<UndoableEdit>::iterator iter;
+	iter=edits.end();
+	for(;iter!=edits.begin();iter--)
+	{
+		if(iter->canUndo()==true)
+			break;
+	}
+	if(iter!=edits.begin())
+	{
+		return *iter;
+	}
+	
+}
+UndoableEdit UndoManager::editToBeRedone()
+{
+	list<UndoableEdit>::iterator iter;
+	iter=edits.end();
+	for(;iter!=edits.begin();iter--)
+	{
+		if(iter->canRedo()==true)
+			break;
+	}
+	return *iter;
+}
+

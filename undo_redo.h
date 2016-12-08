@@ -1,6 +1,6 @@
 #include<iostream>
-#include<vector>
-#include"observer.h"
+#include<list>
+#include<string>
 
 using namespace std;
 
@@ -21,28 +21,39 @@ public:
 		:hasBeenDone(true),alive(true),
 		type(type),name(name)
 	{}
-	void undo(){}
+	virtual void undo();
 	bool canUndo();
-	void redo(){}
+	virtual void redo();
 	bool canRedo();
-	void die(){}
+	void die();
 	virtual void addEdit(UndoableEdit anEdit){}
-	virtual void replaceEdit(UndoableEdit anEdit){}
+	virtual void replaceEdit(UndoableEdit* anEdit){}
 	//virtual bool isSignificant(){}
-	virtual string getPresentationName(){return NULL;}
+	string getPresentationName();
+	string getName()
+	{
+		return name;
+	}
 	//virtual string getUndoPresentationName(){return NULL;}
 	//virtual string getRedoPresentationName(){return NULL;}
 };
 class CompoundEdit:public UndoableEdit
 {
 protected:
-	vector<UndoableEdit> edits;
+	list<UndoableEdit> edits;
 
 public:
+	CompoundEdit():UndoableEdit()
+	{}
+	CompoundEdit(int type,string name)
+		:UndoableEdit(type,name)
+	{}
+	virtual void undo(){}
+	virtual void redo(){}
 	virtual void addEdit(UndoableEdit anEdit);
 	virtual void replaceEdit(UndoableEdit anEdit);
 	//virtual bool isSignificant();
-	virtual string getPresentationName();
+	//virtual string getPresentationName();
 	//virtual string getUndoPresentationName();
 	//virtual string getRedoPresentationName();
 };
@@ -50,27 +61,39 @@ public:
 class UndoManager:public CompoundEdit
 	//执行具体的指令
 {
-	int indexOfNextAdd;
+	//int indexOfNextAdd;
 	//int limit;
 public:
+	UndoManager():CompoundEdit()
+	{
+		cout<<"create a command"<<endl;
+	}
+	UndoManager(int type,string name)
+		:CompoundEdit(type,name)
+	{
+		cout<<"create a Command. The command is "<<getPresentationName()
+			<<"the objecct is "<<getName()<<endl;
+	}
 	//int getLimit();
 	//void setLimit(int i);
 	//void discardAllEdits();
 
+	virtual void undo();
+	virtual void redo();
 	//void undoTo(UndoableEdit edit);
 	//void redoTo(UndoableEdit edit);
 	//void undoOrRedo();
 	//bool canUndoOrRedo();
 
-	virtual void addEdit(UndoableEdit anEdit);
-	virtual void replaceEdit(UndoableEdit anEdit);
+	//virtual void addEdit(UndoableEdit anEdit);
+	//virtual void replaceEdit(UndoableEdit anEdit);
 	//virtual bool isSignificant();
-	virtual string getPresentationName();
+	//virtual string getPresentationName();
 	//virtual string getUndoPresentationName();
 	//virtual string getRedoPresentationName();
 
-	void undoableEditHappened();
-protected:
+	//void undoableEditHappened();
+//protected:
 	//void trimForLimit();
 	//void trimEdits(int from,int to);
 	UndoableEdit editToBeUndone();

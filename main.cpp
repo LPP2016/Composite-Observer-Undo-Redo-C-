@@ -81,7 +81,7 @@ int main(){
 	UndoManager* newfile1=new UndoManager(1,"file1");
 	UndoManager* newfile2=new UndoManager(1,"file2");
 	UndoManager* deletedir3=new UndoManager(2,"dir3");
-	UndoManager* setsizefile1=new UndoManager(1,"file1");
+	UndoManager* setsizefile1=new UndoManager(5,"file1");
 	command->addEdit(*newdir1);
 	command->addEdit(*newdir2);
 	command->addEdit(*newdir3);
@@ -89,8 +89,11 @@ int main(){
 	command->addEdit(*newfile2);
 	command->addEdit(*deletedir3);
 	command->addEdit(*setsizefile1);
-	//command->editToBeUndone();
-	//command->redo();
 	command->replaceEdit(*deletedir3);
+	command->editToBeUndone();
+	command->editToBeRedone();
+	command->undo();
+	command->undo();
+	command->redo();
 	return 0;
 }

@@ -49,7 +49,9 @@ public:
 		:UndoableEdit(type,name)
 	{}
 	virtual void undo(){}
+	//virtual bool canUndo();
 	virtual void redo(){}
+	//virtual bool canRedo();
 	virtual void addEdit(UndoableEdit anEdit);
 	virtual void replaceEdit(UndoableEdit anEdit);
 	//virtual bool isSignificant();
@@ -79,7 +81,9 @@ public:
 	//void discardAllEdits();
 
 	virtual void undo();
+	//virtual bool canUndo();
 	virtual void redo();
+	//virtual bool canRedo();
 	//void undoTo(UndoableEdit edit);
 	//void redoTo(UndoableEdit edit);
 	//void undoOrRedo();

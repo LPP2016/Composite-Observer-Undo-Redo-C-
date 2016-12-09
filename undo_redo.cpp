@@ -61,12 +61,13 @@ string UndoableEdit::getPresentationName()
 	}
 	return comm;
 }
+
 void CompoundEdit::addEdit(UndoableEdit anEdit)
 {
 	if(&anEdit==NULL)
 		UndoableEdit *anEdit=new UndoableEdit;
-	edits.push_back(anEdit);
-	cout<<"add"<<anEdit.getPresentationName()
+	edits.push_front(anEdit);
+	cout<<"add "<<anEdit.getPresentationName()
 		<<"("<<anEdit.getName()<<")"<<endl;
 }
 void CompoundEdit::replaceEdit(UndoableEdit anedit)
@@ -83,7 +84,7 @@ void CompoundEdit::replaceEdit(UndoableEdit anedit)
 	if(edits.end()!=iter1)
 	{
 		edits.erase(iter1);
-		edits.push_back(anedit);
+		edits.push_front(anedit);
 		cout<<"replace this command."<<endl;
 	}
 	else
@@ -94,43 +95,64 @@ void CompoundEdit::replaceEdit(UndoableEdit anedit)
 void UndoManager::undo()
 {
 	
-	list<UndoableEdit>::iterator iter;
-	*iter=editToBeUndone();
-	iter->undo();
-	
+	UndoableEdit iter;
+	iter=editToBeUndone();
+	iter.undo();
+	cout<<"Undo the command "<<iter.getPresentationName()<<"("<<iter.getName()<<")"<<endl;
 }
+
 void UndoManager::redo()
 {
-	list<UndoableEdit>::iterator iter;
-	*iter=editToBeRedone();
-	iter->redo();
-	replaceEdit(*iter);
+	UndoableEdit iter;
+	iter=editToBeRedone();
+	iter.redo();
+	replaceEdit(iter);
+	cout<<"Redo the command "<<iter.getPresentationName()<<"("<<iter.getName()<<")"<<endl;
 }
 
 UndoableEdit UndoManager::editToBeUndone()
 {
-	list<UndoableEdit>::iterator iter;
-	iter=edits.end();
-	for(;iter!=edits.begin();iter--)
+	list<UndoableEdit>::iterator iter1,iter2;
+	UndoableEdit* none=new UndoableEdit(0,"none");
+	iter1=edits.begin();
+	iter2=edits.end();
+	for(;iter1!=iter2;iter1++)
 	{
-		if(iter->canUndo()==true)
+		if(iter1->canUndo())
 			break;
 	}
-	if(iter!=edits.begin())
+	if(iter1!=iter2)
 	{
-		return *iter;
+		cout<<"find undoableEdit "<<iter1->getPresentationName()<<"("<<iter1->getName()<<")"<<endl;
+		return *iter1;
 	}
-	
+	else
+	{
+		cout<<"none of the undoable edit."<<endl;
+			return *none;
+	}
 }
 UndoableEdit UndoManager::editToBeRedone()
 {
-	list<UndoableEdit>::iterator iter;
-	iter=edits.end();
-	for(;iter!=edits.begin();iter--)
+	list<UndoableEdit>::iterator iter1,iter2;
+	UndoableEdit* none=new UndoableEdit(0,"none");
+	iter1=edits.begin();
+	iter2=edits.end()--;
+	for(;iter1!=iter2;iter1++)
 	{
-		if(iter->canRedo()==true)
+		cout<<iter1->getPresentationName()<<"("<<iter1->getName()<<")"<<endl;
+		if(iter1->canRedo())
 			break;
 	}
-	return *iter;
+	if(iter1!=iter2)
+	{
+		cout<<"find redoable edit "<<iter1->getPresentationName()<<"("<<iter1->getName()<<")"<<endl;
+		return *iter1;
+	}
+	else 
+	{
+		cout<<"none of the redoable edit."<<endl;
+		return *none;
+	}
 }
 

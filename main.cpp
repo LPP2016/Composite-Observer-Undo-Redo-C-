@@ -8,7 +8,7 @@ using namespace std;
 int main(){
 	//测试Observer部分
 	//测试内容：Observer的添加，删除，数量；改变状态的设置；改变状态观察者的响应
-	cout<<"Observer Testing"<<endl;
+	cout<<"测试Observer部分："<<endl;
 	cout<<"创建三个观察者和一个被观察者。"<<endl;
 	Observer *p1=new ConcreateObserver;
 	Observer *p2=new ConcreateObserver;
@@ -38,7 +38,7 @@ int main(){
 	p->notifyObservers(p1);
 
 	//测试composite部分
-	cout<<"Composite testing:"<<endl;
+	cout<<endl<<endl<<"测试Composite部分："<<endl;
 	cout<<"Making user entries..."<<endl;
 	Directory *rootdir=new Directory("root");
 	Directory *bindir=new Directory("bin");

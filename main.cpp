@@ -89,11 +89,21 @@ int main(){
 	command->addEdit(*newfile2);
 	command->addEdit(*deletedir3);
 	command->addEdit(*setsizefile1);
+	command->printList();
 	command->replaceEdit(*deletedir3);
+	command->printList();
 	command->editToBeUndone();
 	command->editToBeRedone();
 	command->undo();
+	command->printList();
 	command->undo();
+	command->printList();
 	command->redo();
+	command->printList();
+	command->redo();
+	command->printList();
+	command->redo();
+	command->printList();
+
 	return 0;
 }

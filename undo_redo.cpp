@@ -61,6 +61,16 @@ string UndoableEdit::getPresentationName()
 	}
 	return comm;
 }
+void UndoableEdit::printList()
+{
+	cout<<getPresentationName()
+		<<" ("<<getName()<<")";
+	if(canUndo())
+		cout<<" undoable";
+	else if(canRedo())
+		cout<<" redoable";
+	cout<<endl;
+}
 
 void CompoundEdit::addEdit(UndoableEdit anEdit)
 {
@@ -98,6 +108,7 @@ void UndoManager::undo()
 	UndoableEdit iter;
 	iter=editToBeUndone();
 	iter.undo();
+	replaceEdit(iter);
 	cout<<"Undo the command "<<iter.getPresentationName()<<"("<<iter.getName()<<")"<<endl;
 }
 
@@ -156,3 +167,11 @@ UndoableEdit UndoManager::editToBeRedone()
 	}
 }
 
+void UndoManager::printList()
+{
+	list<UndoableEdit>::iterator iter=edits.begin();
+	for(;iter!=edits.end();iter++)
+	{
+		iter->printList();
+	}
+}

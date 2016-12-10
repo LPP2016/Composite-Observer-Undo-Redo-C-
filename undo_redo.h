@@ -34,6 +34,7 @@ public:
 	{
 		return name;
 	}
+	virtual void printList();
 	//virtual string getUndoPresentationName(){return NULL;}
 	//virtual string getRedoPresentationName(){return NULL;}
 };
@@ -54,6 +55,7 @@ public:
 	//virtual bool canRedo();
 	virtual void addEdit(UndoableEdit anEdit);
 	virtual void replaceEdit(UndoableEdit anEdit);
+	virtual void printList(){}
 	//virtual bool isSignificant();
 	//virtual string getPresentationName();
 	//virtual string getUndoPresentationName();
@@ -102,5 +104,7 @@ public:
 	//void trimEdits(int from,int to);
 	UndoableEdit editToBeUndone();
 	UndoableEdit editToBeRedone();
+
+	virtual void printList();
 
 };

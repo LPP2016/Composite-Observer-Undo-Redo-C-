@@ -1,8 +1,7 @@
 #include<iostream>
 #include<vector>
 #include"observer.h"
-#include"composite.h"
-#include"undo_redo.h"
+#include"Command.h"
 using namespace std;
 
 int main(){
@@ -75,13 +74,13 @@ int main(){
 	//测试undo_redo部分
 	cout<<endl<<endl<<"测试undo_red部分："<<endl;
 	UndoManager* command=new UndoManager();
-	UndoManager* newdir1=new UndoManager(1,"dir1");
-	UndoManager* newdir2=new UndoManager(1,"dir2");
-	UndoManager* newdir3=new UndoManager(1,"dir3");
-	UndoManager* newfile1=new UndoManager(1,"file1");
-	UndoManager* newfile2=new UndoManager(1,"file2");
-	UndoManager* deletedir3=new UndoManager(2,"dir3");
-	UndoManager* setsizefile1=new UndoManager(5,"file1");
+	UndoManager* newdir1=new UndoManager(1,"dir1",0);
+	UndoManager* newdir2=new UndoManager(1,"dir2",0);
+	UndoManager* newdir3=new UndoManager(1,"dir3",0);
+	UndoManager* newfile1=new UndoManager(3,"file1",0);
+	UndoManager* newfile2=new UndoManager(3,"file2",0);
+	UndoManager* deletedir3=new UndoManager(2,"dir3",0);
+	UndoManager* setsizefile1=new UndoManager(5,"file1",0);
 	command->addEdit(*newdir1);
 	command->addEdit(*newdir2);
 	command->addEdit(*newdir3);
@@ -105,5 +104,24 @@ int main(){
 	command->redo();
 	command->printList();
 
+	//Command
+	Command cmd;
+	cout<<endl<<endl<<endl;
+	cout<<"****************************"<<endl;
+	cout<<"**       0退出程序        **"<<endl;
+	cout<<"**       1新建目录        **"<<endl;
+	cout<<"**       2删除目录        **"<<endl;
+	cout<<"**       3新建文件        **"<<endl;
+	cout<<"**       4删除文件        **"<<endl;
+	cout<<"**       5指令撤销        **"<<endl;
+	cout<<"**       6指令恢复        **"<<endl;
+	cout<<"**      7输出目录列表     **"<<endl;
+	cout<<"**      8输出文件列表     **"<<endl;
+	cout<<"**      9输出指令列表     **"<<endl;
+	//cout<<"**     10修改文件大小     **"<<endl;
+	cout<<"****************************"<<endl<<endl;
+	cout<<"请输入指令："<<endl;
+		cmd.execute();
+		
 	return 0;
 }

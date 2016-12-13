@@ -20,12 +20,12 @@ void Directory::_delete(Entry* e)
 
 void Directory::printList(string str)
 {
-    list<Entry* >::iterator beg = directory.begin();
+    list<Entry* >::iterator iter = directory.begin();
     cout<<str<<name<<"("<<getSize()<<")"<<endl;
     str = str + str;
-    for ( ; beg != directory.end(); beg++)
+    for ( ; iter != directory.end(); iter++)
     {
-        (*beg)->printList(str);
+        (*iter)->printList(str);
     }
 }
 

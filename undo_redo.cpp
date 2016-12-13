@@ -124,7 +124,7 @@ void UndoManager::redo()
 UndoableEdit UndoManager::editToBeUndone()
 {
 	list<UndoableEdit>::iterator iter1,iter2;
-	UndoableEdit* none=new UndoableEdit(0,"none");
+	UndoableEdit* none=new UndoableEdit(0,"none",0);
 	iter1=edits.begin();
 	iter2=edits.end();
 	for(;iter1!=iter2;iter1++)
@@ -146,12 +146,12 @@ UndoableEdit UndoManager::editToBeUndone()
 UndoableEdit UndoManager::editToBeRedone()
 {
 	list<UndoableEdit>::iterator iter1,iter2;
-	UndoableEdit* none=new UndoableEdit(0,"none");
+	UndoableEdit* none=new UndoableEdit(0,"none",0);
 	iter1=edits.begin();
 	iter2=edits.end()--;
 	for(;iter1!=iter2;iter1++)
 	{
-		cout<<iter1->getPresentationName()<<"("<<iter1->getName()<<")"<<endl;
+		//cout<<iter1->getPresentationName()<<"("<<iter1->getName()<<")"<<endl;
 		if(iter1->canRedo())
 			break;
 	}
@@ -169,6 +169,7 @@ UndoableEdit UndoManager::editToBeRedone()
 
 void UndoManager::printList()
 {
+	cout<<"输出指令列表(由新到旧）："<<endl;
 	list<UndoableEdit>::iterator iter=edits.begin();
 	for(;iter!=edits.end();iter++)
 	{

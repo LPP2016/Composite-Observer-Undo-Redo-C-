@@ -13,13 +13,13 @@ protected:
 	int type;//指令类型
 	//1-新建目录，2-删除目录，3-新建文件，4-删除文件，5-修改文件大小
 	string name;
-	
+	int size;
 public:
 	UndoableEdit()
 		:hasBeenDone(true),alive(true){}
-	UndoableEdit(int type,string name)
+	UndoableEdit(int type,string name,int size)
 		:hasBeenDone(true),alive(true),
-		type(type),name(name)
+		type(type),name(name),size(size)
 	{}
 	virtual void undo();
 	bool canUndo();
@@ -34,6 +34,14 @@ public:
 	{
 		return name;
 	}
+	int getSize()
+	{
+		return size;
+	}
+	int getType()
+	{
+		return type;
+	}
 	virtual void printList();
 	//virtual string getUndoPresentationName(){return NULL;}
 	//virtual string getRedoPresentationName(){return NULL;}
@@ -46,8 +54,8 @@ protected:
 public:
 	CompoundEdit():UndoableEdit()
 	{}
-	CompoundEdit(int type,string name)
-		:UndoableEdit(type,name)
+	CompoundEdit(int type,string name,int size)
+		:UndoableEdit(type,name,size)
 	{}
 	virtual void undo(){}
 	//virtual bool canUndo();
@@ -72,8 +80,8 @@ public:
 	{
 		cout<<"create a command"<<endl;
 	}
-	UndoManager(int type,string name)
-		:CompoundEdit(type,name)
+	UndoManager(int type,string name,int size)
+		:CompoundEdit(type,name,size)
 	{
 		cout<<"create a Command. The command is "<<getPresentationName()
 			<<"the objecct is "<<getName()<<endl;
